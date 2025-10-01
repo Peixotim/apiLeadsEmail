@@ -5,5 +5,5 @@ import lombok.Builder;
 
 
 @Builder
-public record LeadsRequest(String name, String email ,String phone ,Foco foco){
+public record LeadsRequest(String name, String email ,String phone ,String enterprise,Foco foco){
 }

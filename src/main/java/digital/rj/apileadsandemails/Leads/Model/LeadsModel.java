@@ -9,26 +9,25 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-@RequiredArgsConstructor
 public class LeadsModel {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "name", length = 120)
+    @Column(name = "name", length = 120,nullable = false)
     private String name;
 
-    @Column(name = "phone", length = 120)
+    @Column(name = "phone", length = 120,nullable = false)
     private String phone;
 
-    @Column(name = "Foco")
+    @Column(name = "Foco",nullable = false)
     @Enumerated(EnumType.STRING)
     private Foco foco;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     private String email;
 
+    @Column(name = "enterprise",nullable = true)
+    private String enterprise;
 
 }

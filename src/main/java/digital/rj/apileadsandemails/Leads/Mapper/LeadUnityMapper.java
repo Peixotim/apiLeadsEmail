@@ -15,6 +15,8 @@ public class LeadUnityMapper {
         m.setFoco(dto.getFoco());
         m.setPhone(dto.getPhone());
         m.setName(dto.getName());
+        m.setEmail(dto.getEmail());
+        m.setEnterprise(dto.getEnterprise());
         return m;
     }
 
@@ -24,7 +26,10 @@ public class LeadUnityMapper {
         dto.setId(model.getId());
         dto.setName(model.getName());
         dto.setPhone(model.getPhone());
+        dto.setEmail(model.getEmail());
+        dto.setEnterprise(model.getEnterprise());
         return dto;
+
     }
 
 }

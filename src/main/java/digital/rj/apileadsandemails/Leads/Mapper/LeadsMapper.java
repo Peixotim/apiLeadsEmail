@@ -17,6 +17,7 @@ public class LeadsMapper {
                         .name(request.name()).
                         foco(request.foco())
                         .email(request.email())
+                        .enterprise(request.enterprise())
                         .build();
         return l ;
     }
@@ -28,6 +29,7 @@ public class LeadsMapper {
                         .name(dto.getName())
                         .foco(dto.getFoco())
                         .phone(dto.getPhone())
+                        .enterprise(dto.getEnterprise())
                         .email(dto.getEmail())
                         .build();
         return l;
