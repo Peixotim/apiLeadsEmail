@@ -5,6 +5,7 @@ import digital.rj.apileadsandemails.Email.Model.EmailModel;
 import digital.rj.apileadsandemails.Email.Service.EmailService;
 import digital.rj.apileadsandemails.Leads.DTOs.Request.LeadsRequest;
 import digital.rj.apileadsandemails.Leads.DTOs.Response.LeadsResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,8 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<?> sendMail(@RequestBody ContactModel model){
-        return ResponseEntity.ok(service.SendEmail(model));
+    public ResponseEntity<?> sendMail(@Valid @RequestBody ContactModel model){
+        return service.SendEmail(model);
     }
 
 }

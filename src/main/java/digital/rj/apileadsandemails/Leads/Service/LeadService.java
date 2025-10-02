@@ -7,6 +7,7 @@ import digital.rj.apileadsandemails.Leads.Mapper.LeadUnityMapper;
 import digital.rj.apileadsandemails.Leads.Mapper.LeadsMapper;
 import digital.rj.apileadsandemails.Leads.Model.LeadsModel;
 import digital.rj.apileadsandemails.Leads.Repository.LeadsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -106,4 +107,52 @@ public class LeadService {
             throw new ResourceNotFoundException("Error Lead Not Found !");
         }
     }
+
+    @Transactional
+    public boolean createIfNotExists(LeadsRequest request) {
+        if (request == null) throw new IllegalArgumentException("Pedido vazio");
+        if (request.name() == null || request.name().isBlank()) throw new IllegalArgumentException("Nome obrigatório");
+        if (request.foco() == null) throw new IllegalArgumentException("Foco obrigatório");
+
+        final String email = normalizeEmail(request.email());
+        final String phone = normalizePhone(request.phone());
+
+        boolean exists =
+                (email != null && repository.existsByEmailIgnoreCase(email))
+                        || (phone != null && repository.existsByPhone(phone));
+
+        if (exists) return false;
+
+        var reqNorm = new LeadsRequest(
+                request.name().trim(),
+                nullIfBlank(request.enterprise()),
+                phone,
+                email,
+                request.foco()
+        );
+
+        var dto = mapper.toLead(reqNorm);              // DTO interno
+        var entity = entitymapper.map(dto);            // Entidade JPA
+        repository.save(entity);
+        return true;
+    }
+
+    private static String normalizeEmail(String email) {
+        if (email == null) return null;
+        String e = email.trim();
+        return e.isBlank() ? null : e.toLowerCase();
+    }
+
+    private static String normalizePhone(String phone) {
+        if (phone == null) return null;
+        String p = phone.replaceAll("\\s+", "").trim();
+        return p.isBlank() ? null : p;
+    }
+
+    private static String nullIfBlank(String s) {
+        if (s == null) return null;
+        String t = s.trim();
+        return t.isBlank() ? null : t;
+    }
 }
+

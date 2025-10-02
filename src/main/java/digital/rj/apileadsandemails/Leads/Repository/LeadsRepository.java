@@ -7,4 +7,8 @@ public interface LeadsRepository extends JpaRepository<LeadsModel,UUID> {
     Optional<LeadsModel> findByName(String name);
     LeadsModel deleteLeadsModelByName(String name);
     boolean existsByName(String name);
+    boolean existsByPhone(String phone);
+    boolean existsByEmail(String email);
+
+    boolean existsByEmailIgnoreCase(String email);
 }
