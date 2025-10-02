@@ -82,6 +82,34 @@ Rotas públicas como `/auth/**` e `POST /email` estão liberadas.
 
 ---
 
+## 🌱 Variáveis de Ambiente
+
+Antes de rodar a aplicação, defina as seguintes variáveis de ambiente (por exemplo, em um arquivo `.env` ou no sistema operacional):
+
+```bash
+# Banco de Dados
+DB_URL=jdbc:postgresql://localhost:5432/db
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+
+# E-mail (SMTP)
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_PROTOCOL=smtp
+MAIL_USERNAME=seuemail@gmail.com
+MAIL_PASSWORD=senha_de_app_gerada_no_provedor
+
+# JWT
+SECRET_KEY=sua_chave_secreta_segura
+```
+
+> ⚠️ **Atenção:**
+> - O `MAIL_PASSWORD` deve ser uma **senha de aplicativo** gerada no Gmail (ou no provedor de e-mail que você utilizar).
+> - Nunca versionar o `.env` com dados reais.
+> - Em produção, configure essas variáveis no servidor ou container (ex.: Docker, Supabase, Railway, Heroku etc).
+
+---
+
 ## ⚙️ Configuração e Execução
 
 ### Pré-requisitos
