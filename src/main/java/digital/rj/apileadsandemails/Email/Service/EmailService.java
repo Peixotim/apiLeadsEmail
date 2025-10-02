@@ -35,10 +35,10 @@ public class EmailService {
 
         var message = new SimpleMailMessage();
         message.setFrom("pedropeixotovz@gmail.com"); //Quem vai enviar a mensagem
-        message.setSubject(String.valueOf(lead.foco())); //Assunto do texto transforma o enum em foco
-        message.setTo(email.getTo()); //Para quem vai enviar
+        message.setSubject(String.valueOf(model.foco())); //Assunto do texto transforma o enum em foco
+        message.setTo("pedropeixotovz@gmail.com"); //Para quem vai enviar (Alterar depois para rjglobal)
         message.setReplyTo(lead.email()); //Quem vai ficar fixado ou respondido
-        message.setText(model.body()); //Texto do email ou seja o corpo
+        message.setText(buildBody(model)); //Texto do email ou seja o corpo
             mailSender.send(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }else{
@@ -46,6 +46,28 @@ public class EmailService {
         }
 
 
+    }
+
+    private String buildBody(ContactModel req) {
+        var empresa = req.enterprise() == null ? "" : ("\nEmpresa: " + req.enterprise());
+        return """
+               Nova mensagem do site:
+
+               Nome: %s
+               E-mail: %s
+               Telefone: %s
+               Assunto: %s%s
+
+               Mensagem:
+               %s
+               """.formatted(
+                req.name(),
+                req.email(),
+                req.phone() == null ? "-" : req.phone(),
+                req.foco(),
+                empresa,
+                req.body() == null ? "-" : req.body()
+        );
     }
 
 }
