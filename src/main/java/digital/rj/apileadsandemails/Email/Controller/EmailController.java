@@ -1,5 +1,6 @@
 package digital.rj.apileadsandemails.Email.Controller;
 
+import digital.rj.apileadsandemails.Email.Model.ContactModel;
 import digital.rj.apileadsandemails.Email.Model.EmailModel;
 import digital.rj.apileadsandemails.Email.Service.EmailService;
 import digital.rj.apileadsandemails.Leads.DTOs.Request.LeadsRequest;
@@ -21,8 +22,8 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<?> sendMail(@RequestBody EmailModel model , @RequestBody LeadsRequest request){
-        return ResponseEntity.ok(service.SendEmail(model,request));
+    public ResponseEntity<?> sendMail(@RequestBody ContactModel model){
+        return ResponseEntity.ok(service.SendEmail(model));
     }
 
 }
