@@ -1,5 +1,6 @@
 package digital.rj.apileadsandemails.Email.Service;
 
+import digital.rj.apileadsandemails.Email.Model.ContactModel;
 import digital.rj.apileadsandemails.Email.Model.EmailModel;
 import digital.rj.apileadsandemails.Leads.DTOs.Request.LeadsRequest;
 import digital.rj.apileadsandemails.Leads.DTOs.Response.LeadsResponse;
@@ -21,16 +22,23 @@ public class EmailService {
         this.service = service;
     }
 
-    public ResponseEntity<?> SendEmail(EmailModel email, LeadsRequest request){
-        if(email != null && request != null){
-        var saving = service.create(request);
+    public ResponseEntity<?> SendEmail(ContactModel model){
+        if(model != null){
+        var lead = new LeadsRequest(
+                model.name(),
+                model.enterprise(),
+                model.phone(),
+                model.email(),
+                model.foco()
+        );
+        var saving = service.create(lead);
 
         var message = new SimpleMailMessage();
         message.setFrom("pedropeixotovz@gmail.com"); //Quem vai enviar a mensagem
-        message.setSubject(String.valueOf(request.foco())); //Assunto do texto transforma o enum em foco
+        message.setSubject(String.valueOf(lead.foco())); //Assunto do texto transforma o enum em foco
         message.setTo(email.getTo()); //Para quem vai enviar
-        message.setReplyTo(request.email()); //Quem vai ficar fixado ou respondido
-        message.setText(email.getBody()); //Texto do email ou seja o corpo
+        message.setReplyTo(lead.email()); //Quem vai ficar fixado ou respondido
+        message.setText(model.body()); //Texto do email ou seja o corpo
             mailSender.send(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }else{
